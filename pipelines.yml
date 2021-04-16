@@ -1,0 +1,50 @@
+resources:
+  - name: test_build 
+    type: GitRepo
+    configuration:
+      # This is the name of the integration created in the Pipelines UI
+      gitProvider: github_vitalfish
+      path: vitalfish/build-test
+      branches:
+        # Specifies which branches will trigger dependent steps
+        include: master
+      buildOn:
+        commit: true
+        pullRequestCreate: true
+      cancelPendingRunsOn:
+        newCommit: true
+        pullRequestUpdate: true
+
+pipelines:
+  - name: validation
+    configuration:
+      runtime:
+        type: image
+        image:
+          custom:
+            name: "vitalfish/genetica-build"
+            tag: "1.5"
+            registry: dockerhub_vitalfish
+    steps:
+      - name: test
+        type: Bash
+        configuration:
+          environmentVariables:
+            JVM_OPTS: -Xmx4G
+            TERM: dumb
+          inputResources:
+            - name: test_build
+        execution:
+          onStart:
+            - echo "Starting..."
+            - tree
+          onExecute:
+            - echo "What is going on?"
+            - sbt clean compile run
+          onSuccess:
+            - echo "Execution success!"
+          onFailure:
+            - sbt last
+          onComplete:
+            - echo "Finished!"
+
