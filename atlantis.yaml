@@ -3,21 +3,11 @@ automerge: true
 delete_source_branch_on_merge: true
 
 projects:
-  - name: genesis
-    dir: ./infra/environments/genesis
+  - name: infra
+    dir: ./infra
     terraform_version: 0.15.5
     autoplan:
       enabled: true
       when_modified:
         - "*.tf"
     workflow: genesis
-
-  - name: workbench-shared
-    dir: ./infra/environments/workbench-shared
-    terraform_version: 0.15.5
-    autoplan:
-      enabled: true
-      when_modified:
-        - "*.tf"
-        - "./infra/modules/akkaserverless-keys/*.tf"
-    workflow: workbench-shared
