@@ -15,7 +15,7 @@ terraform {
 }
 
 locals {
-  test = "yum!"
+  test = "yum"
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
