@@ -14,6 +14,10 @@ terraform {
   # https://www.terraform.io/docs/backends/types/gcs.html
 }
 
+locals {
+  test = "yum!"
+}
+
 # https://www.terraform.io/docs/providers/google/index.html
 provider "google" {
   project = "vital-fish"
